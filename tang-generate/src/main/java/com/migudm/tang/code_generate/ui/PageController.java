@@ -214,25 +214,12 @@ public class PageController implements Initializable {
 			}
 			final String pkColumnName = pkResultSet.getString("COLUMN_NAME");
 
-
-//			int columns = resultSetMetaData.getColumnCount();
-//			HashMap row = new HashMap();
-//			while (columnResultSet.next()) {
-//				ColumnInfo columnInfo = new ColumnInfo();
-//
-//				for (int i = 1; i <= columns; i++) {
-//					System.out.println(resultSetMetaData.getColumnName(i) +" --"+ columnResultSet.getObject(i));
-//				}
-//				System.out.println("");
-//			}
-
-
 			while (columnResultSet.next()){
 				ColumnInfo columnInfo = new ColumnInfo();
 				columnInfo.setColumnComment(columnResultSet.getString("REMARKS"));
 				columnInfo.setColumnName(columnResultSet.getString("COLUMN_NAME"));
 				columnInfo.setTypeCode(columnResultSet.getInt("DATA_TYPE"));
-				columnInfo.setTypeName(columnResultSet.getString("TYPE_NAME"));
+				columnInfo.setTypeName(JDBCType.valueOf(columnResultSet.getInt("DATA_TYPE")).getName());
 
 				String javaType = DatabaseDataTypesUtils.getPreferredJavaType(
 						columnInfo.getTypeCode(),columnResultSet.getInt("COLUMN_SIZE"),
